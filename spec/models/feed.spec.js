@@ -11,7 +11,7 @@ export function FeedSpec() {
         });
 
         it('should create a new feed', () => {
-            expect(feed).toBeDefined();
+            expect(feed).toEqual(jasmine.any(Feed));
         });
     });
 };
