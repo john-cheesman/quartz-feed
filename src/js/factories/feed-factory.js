@@ -1,13 +1,22 @@
-import { FeedMe } from 'feedme';
-import { Http } from 'http';
+import FeedMe from 'feedme';
+import RequestPromise from 'request-promise';
 
 export class FeedFactory {
-    constructor(url) {
-        this.parser = new FeedMe();
-        this.url = url;
-    }
+    static getFeed(url) {
+        let parser;
 
-    getFeed() {
+        parser = new FeedMe(true);
 
+        RequestPromise(url)
+            .then((response) => {
+                parser.on('end', function() {
+                    return parser.done();
+                });
+
+                response.pipe(parser);
+            })
+            .catch((error) => {
+                console.error(`Unable to get feed: ${error}`);
+            });
     }
 }

@@ -1,34 +1,32 @@
 var gulp,
+    sourcemaps,
+    source,
+    buffer,
     browserify,
-    transform,
-    babelify,
+    babel,
     uglify,
-    rename,
-    config;
+    config,
+    gutil;
 
 gulp       = require('gulp');
+sourcemaps = require('gulp-sourcemaps');
+source     = require('vinyl-source-stream');
+buffer     = require('vinyl-buffer');
 browserify = require('browserify');
-transform  = require('vinyl-transform');
-babelify   = require('babelify');
+babel      = require('babelify');
 uglify     = require('gulp-uglify');
-rename     = require('gulp-rename');
 config     = require('../config').scripts;
+gutil      = require('gulp-util');
 
 gulp.task('scripts', ['clean-scripts'], function() {
-    var browserifyThis;
+    var bundler = browserify(config.src, { debug: true }).transform(babel);
 
-    browserifyThis = transform(function(filename) {
-        return browserify(filename)
-            .transform(babelify
-                .configure({
-                    ignore: 'node_modules'
-                }))
-            .bundle();
-    });
-
-    return gulp.src(config.src)
-        .pipe(browserifyThis)
-        .pipe(uglify())
-        .pipe(rename(config.outputName))
+    return bundler.bundle()
+        .on('error', function(err) { console.error(err); this.emit('end'); })
+        .pipe(source(config.outputName))
+        .pipe(buffer())
+        .pipe(gutil.env.type === 'release' ? uglify() : gutil.noop())
+        .pipe(gutil.env.type !== 'release' ? sourcemaps.init({ loadMaps: true }) : gutil.noop())
+        .pipe(gutil.env.type !== 'release' ? sourcemaps.write('./') : gutil.noop())
         .pipe(gulp.dest(config.dest));
 });

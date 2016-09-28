@@ -1,36 +1,32 @@
 var gulp,
+    source,
+    buffer,
     browserify,
-    transform,
-    babelify,
-    rename,
+    babel,
+    uglify,
+    config,
+    gutil,
     jasmine,
-    reporters,
-    config;
+    reporters;
 
 gulp       = require('gulp');
+source     = require('vinyl-source-stream');
+buffer     = require('vinyl-buffer');
 browserify = require('browserify');
-transform  = require('vinyl-transform');
-babelify   = require('babelify');
-rename     = require('gulp-rename');
+babel      = require('babelify');
+uglify     = require('gulp-uglify');
+config     = require('../config').spec;
+gutil      = require('gulp-util');
 jasmine    = require('gulp-jasmine');
 reporters  = require('jasmine-reporters');
-config     = require('../config').spec;
 
 gulp.task('spec', ['clean-spec'], function() {
-    var browserifyThis;
+    var bundler = browserify(config.src, { debug: true }).transform(babel);
 
-    browserifyThis = transform(function(fileName) {
-        return browserify(fileName)
-            .transform(babelify
-                .configure({
-                    ignore: 'node_modules'
-                }))
-            .bundle();
-    });
-
-    return gulp.src(config.src)
-        .pipe(browserifyThis)
-        .pipe(rename(config.outputName))
+    return bundler.bundle()
+        .on('error', function(err) { console.error(err); this.emit('end'); })
+        .pipe(source(config.outputName))
+        .pipe(buffer())
         .pipe(gulp.dest(config.dest))
         .pipe(jasmine({
             reporter: new reporters.TerminalReporter(config.reporter)
