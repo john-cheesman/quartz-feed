@@ -11,10 +11,7 @@ export class FeedFactory {
             withCredentials: false
         };
 
-        RequestPromise(options)
-            .then((response) => {
-                return new Feed(JSON.parse(response));
-            })
+        return RequestPromise(options)
             .catch((error) => {
                 console.error(`Unable to get feed: ${error}`);
             });

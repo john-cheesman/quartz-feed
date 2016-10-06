@@ -5,7 +5,15 @@ export class App {
 
     }
 
-    redirect(route) {
+    get feedsUrls() {
+        let urls;
 
+        urls = [];
+
+        this.feeds.forEach((feed) => {
+            urls.push(feed.url);
+        });
+
+        return urls;
     }
 }

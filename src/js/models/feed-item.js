@@ -1,5 +1,8 @@
 export class FeedItem {
     constructor(feedItemObject) {
-        console.log(feedItemObject);
+        this.author = feedItemObject.author;
+        this.published = new Date(feedItemObject.publishedDate.date);
+        this.title = feedItemObject.title;
+        this.content = feedItemObject.content;
     }
 }

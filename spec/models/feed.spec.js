@@ -11,7 +11,12 @@ export function FeedSpec() {
             feedData = {
                 items: [
                     {
-                        author: 'john-cheesman'
+                        author: `john-cheesman`,
+                        publishedDate: {
+                            date: `2016-01-01`
+                        },
+                        content: `<p>content</p>`,
+                        title: `Post`
                     }
                 ]
             };
