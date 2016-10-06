@@ -4,5 +4,6 @@ export class FeedItem {
         this.published = new Date(feedItemObject.publishedDate.date);
         this.title = feedItemObject.title;
         this.content = feedItemObject.content;
+        this.url = feedItemObject.url;
     }
 }
