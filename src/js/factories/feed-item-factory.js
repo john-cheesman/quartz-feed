@@ -3,9 +3,16 @@ import { FeedItem } from '../models/feed-item';
 import { api } from '../constants/api';
 
 export class FeedItemFactory {
-    static getAggregatedFeedItems(urls, offset = 0, limit = null) {
+    static getAggregatedFeedItems(feeds, offset = 0, limit = null) {
         let options,
+            urls,
             urlsString;
+
+        urls = [];
+
+        feeds.forEach((feed) => {
+            urls.push(feed.feedUrl);
+        });
 
         urlsString = urls.join(',');
 

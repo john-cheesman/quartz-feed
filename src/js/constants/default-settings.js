@@ -1,3 +1,3 @@
 export const defaultSettings = {
-    feedLimit: 5
+    feedLimit: 20
 };

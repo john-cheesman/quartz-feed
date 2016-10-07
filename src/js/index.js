@@ -4,12 +4,12 @@ import { defaultSettings } from './constants/default-settings';
 
 function init() {
     let app,
-    	home;
+        home;
 
     app = new App(defaultSettings);
     home = new HomeController(app);
 
-    home.index();
+    home.addFeed(`http://johncheesman.org.uk/feed.xml`);
 }
 
 init();

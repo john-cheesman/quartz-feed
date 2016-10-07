@@ -3,11 +3,11 @@ import { Feed } from '../models/feed';
 import { api } from '../constants/api';
 
 export class FeedFactory {
-    static getFeed(url, offset = 0, limit = null) {
+    static getFeed(url) {
         let options;
 
         options = {
-            uri: `${api.url}${api.endpoints.getFeed}?url=${url}&offset=${offset}&limit=${limit}`,
+            uri: `${api.url}${api.endpoints.getFeed}?url=${url}`,
             withCredentials: false
         };
 
