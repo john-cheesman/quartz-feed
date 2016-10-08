@@ -9,7 +9,8 @@ function init() {
     app = new App(defaultSettings);
     home = new HomeController(app);
 
-    home.addFeed(`http://johncheesman.org.uk/feed.xml`);
+    home.addFeed(`https://www.smashingmagazine.com/feed/`);
+    home.addFeed(`https://scotch.io/feed/`);
 }
 
 init();
