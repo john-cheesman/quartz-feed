@@ -30,8 +30,8 @@ gulp.task('scripts', ['clean-scripts'], function() {
         .on('error', function(err) { console.error(err); this.emit('end'); })
         .pipe(source(config.outputName))
         .pipe(buffer())
-        .pipe(process.env.NODE_ENV === 'release' ? uglify() : gutil.noop())
-        .pipe(process.env.NODE_ENV !== 'release' ? sourcemaps.init({ loadMaps: true }) : gutil.noop())
-        .pipe(process.env.NODE_ENV !== 'release' ? sourcemaps.write('./') : gutil.noop())
+        .pipe(process.env.NODE_ENV === 'production' ? uglify() : gutil.noop())
+        .pipe(process.env.NODE_ENV !== 'production' ? sourcemaps.init({ loadMaps: true }) : gutil.noop())
+        .pipe(process.env.NODE_ENV !== 'production' ? sourcemaps.write('./') : gutil.noop())
         .pipe(gulp.dest(config.dest));
 });
