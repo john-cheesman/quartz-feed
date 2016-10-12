@@ -19,14 +19,19 @@ config     = require('../config').scripts;
 gutil      = require('gulp-util');
 
 gulp.task('scripts', ['clean-scripts'], function() {
-    var bundler = browserify(config.src, { debug: true }).transform(babel);
+    var bundler = browserify(config.src, { debug: true })
+            .transform(babel.configure(
+                {
+                    plugins: ['transform-inline-environment-variables'],
+                    presets: ['es2015']
+                }));
 
     return bundler.bundle()
         .on('error', function(err) { console.error(err); this.emit('end'); })
         .pipe(source(config.outputName))
         .pipe(buffer())
-        .pipe(gutil.env.type === 'release' ? uglify() : gutil.noop())
-        .pipe(gutil.env.type !== 'release' ? sourcemaps.init({ loadMaps: true }) : gutil.noop())
-        .pipe(gutil.env.type !== 'release' ? sourcemaps.write('./') : gutil.noop())
+        .pipe(process.env.NODE_ENV === 'release' ? uglify() : gutil.noop())
+        .pipe(process.env.NODE_ENV !== 'release' ? sourcemaps.init({ loadMaps: true }) : gutil.noop())
+        .pipe(process.env.NODE_ENV !== 'release' ? sourcemaps.write('./') : gutil.noop())
         .pipe(gulp.dest(config.dest));
 });

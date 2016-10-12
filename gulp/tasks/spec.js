@@ -5,7 +5,6 @@ var gulp,
     babel,
     uglify,
     config,
-    gutil,
     jasmine,
     reporters;
 
@@ -16,12 +15,16 @@ browserify = require('browserify');
 babel      = require('babelify');
 uglify     = require('gulp-uglify');
 config     = require('../config').spec;
-gutil      = require('gulp-util');
 jasmine    = require('gulp-jasmine');
 reporters  = require('jasmine-reporters');
 
 gulp.task('spec', ['clean-spec'], function() {
-    var bundler = browserify(config.src, { debug: true }).transform(babel);
+    var bundler = browserify(config.src)
+        .transform(babel.configure(
+            {
+                plugins: ['transform-inline-environment-variables'],
+                presets: ['es2015']
+            }));
 
     return bundler.bundle()
         .on('error', function(err) { console.error(err); this.emit('end'); })

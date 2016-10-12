@@ -1,5 +1,5 @@
 export const api = {
-    url: `http://johncheesman.org.uk/quartz-feed/api/`,
+    url: process.env.API_URL,
     endpoints: {
         getFeed: `getFeed`,
         getAggregatedFeedItems: `getAggregatedFeedItems`
