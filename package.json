@@ -34,8 +34,6 @@
   },
   "dependencies": {
     "extract-image-props-from-html-string": "^0.2.3",
-    "feedme": "^0.3.2",
-    "http": "0.0.0",
     "request": "^2.75.0",
     "request-promise": "^4.1.1"
   }
