@@ -9,10 +9,11 @@ function init() {
 
     app = new App(defaultSettings);
     home = new HomeController(app);
-    addFeedForm = document.querySelector([name="add-feed"]);
+    addFeedForm = document.forms.namedItem(`add-feed`);
 
-    addFeedForm.addEventListener('submit', (event) => {
-        console.log(event);
+    addFeedForm.addEventListener(`submit`, (event) => {
+        console.log(addFeedForm.querySelector(`[name="url"]`));
+        home.addFeed(addFeedForm.querySelector(`[name="url"]`).value);
         event.preventDefault();
     });
 
