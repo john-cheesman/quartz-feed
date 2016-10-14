@@ -1,5 +1,4 @@
 import RequestPromise from 'request-promise';
-import { FeedItem } from '../models/feed-item';
 import { api } from '../constants/api';
 
 export class FeedItemFactory {

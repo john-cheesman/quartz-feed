@@ -17,8 +17,7 @@ function init() {
         event.preventDefault();
     });
 
-    home.addFeed(`https://www.smashingmagazine.com/feed/`);
-    home.addFeed(`https://scotch.io/feed/`);
+    home.index();
 }
 
 init();

@@ -10,9 +10,7 @@ export class App {
 
         urls = [];
 
-        this.feeds.forEach((feed) => {
-            urls.push(feed.url);
-        });
+        this.feeds.forEach(feed => urls.push(feed.url));
 
         return urls;
     }

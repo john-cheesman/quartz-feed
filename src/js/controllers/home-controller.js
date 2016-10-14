@@ -1,7 +1,4 @@
 import { Controller } from '../models/controller';
-import { Feed } from '../models/feed';
-import { FeedItem } from '../models/feed-item';
-import { FeedItemList } from '../models/feed-item-list';
 import { FeedFactory } from '../factories/feed-factory';
 import { FeedItemFactory } from '../factories/feed-item-factory';
 import { feedItemListTemplate } from '../templates/feed-item-list.html';
@@ -21,22 +18,13 @@ export class HomeController extends Controller {
 
         target = document.querySelector('.content');
         savedFeeds = Storage.loadFeeds();
+        feedItemList = [];
 
         if (savedFeeds) {
             FeedItemFactory.getAggregatedFeedItems(savedFeeds, 0, this.app.settings.feedLimit)
-                .then((response) => {
-                    feedItemList = new FeedItemList();
-
-                    JSON.parse(response).forEach((item) => {
-                        let feedItem;
-
-                        feedItem = new FeedItem(item);
-
-                        feedItemList.add(feedItem);
-                    });
-
-                    target.innerHTML = feedItemListTemplate(feedItemList);
-                });
+                .then(JSON.parse)
+                .then(response => response.forEach(item => feedItemList.push(item)))
+                .then(() => target.innerHTML = feedItemListTemplate(feedItemList));
         }
         else {
             target.innerHTML = `<p>You have no feeds! <a href="#">Add some feeds here.</a></p>`;

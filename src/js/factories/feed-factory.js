@@ -1,5 +1,4 @@
 import RequestPromise from 'request-promise';
-import { Feed } from '../models/feed';
 import { api } from '../constants/api';
 
 export class FeedFactory {
@@ -12,8 +11,6 @@ export class FeedFactory {
         };
 
         return RequestPromise(options)
-            .catch((error) => {
-                console.error(`Unable to get feed: ${error}`);
-            });
+            .catch(error => console.error(`Unable to get feed: ${error}`));
     }
 }
